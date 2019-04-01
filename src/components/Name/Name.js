@@ -1,13 +1,15 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
 import "./Name.css";
+import store, {UPDATE_RECIPE_CATEGORY, UPDATE_RECIPE_NAME} from './../../store'
 
 class Name extends Component {
   constructor(props) {
     super(props);
+    const reduxState = store.getState();
     this.state = {
-      name: '',
-      category: ''
+      name: reduxState.name,
+      category: reduxState.category
     };
   }
   handleNameChange(nameVal) {
@@ -23,8 +25,22 @@ class Name extends Component {
   }
   saveChanges() {
     // Send data to Redux state
+    store.dispatch({
+      type: UPDATE_RECIPE_NAME,
+      payload: this.state.name
+    })
+    store.dispatch({
+      type: UPDATE_RECIPE_CATEGORY,
+      payload: this.state.category
+    })
+    this.setState({
+      name: '',
+      category: ''
+    })  
   }
+
   render() {
+    console.log(store);
     return (
       <div className="Name forms">
         <div className="input_container">
